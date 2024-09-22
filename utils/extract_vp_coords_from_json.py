@@ -19,10 +19,16 @@ def extract_vp_coords_from_json(json_path: Union[Path, str]) -> np.array:
     with open(json_path) as f:
         data = json.load(f)
 
-    coords = data.get('coordinates', {})
+    coords = data.get('vanishing_points', {})
+    if isinstance(coords, dict):
+        try:
+            return  np.array(list(coords.values())).reshape(2, 2)
 
-    try:
-        return  np.array(list(coords.values())).reshape(2, 2)
+        except Exception as e:
+            return e
+    elif isinstance(coords, list):
+        try:
+            return np.array(coords)
+        except Exception as e:
+            return  e
 
-    except Exception as e:
-        return e
