@@ -18,8 +18,12 @@ def accuracy_score_with_penalty(vp_true_coords, vp_pred_coords):
         vp_true_filtered = np.expand_dims(vp_true_filtered, axis=-1)
 
         penalty_coord = vp_true_coords[index, :]
-        print(f'The penalty coords are: {penalty_coord}')
+        # print(f'The penalty coords are: {penalty_coord}, close pred {vp_true_filtered}, true coord {vp_pred_coords}')
+        penalty_distance = np.linalg.norm([penalty_coord[0] - 0.5, penalty_coord[1] - 0.5])
+        amount = (1 - np.sqrt(2) / penalty_distance)
+        print(f'The penalty: {amount}')
         initial_score = accuracy_score(vp_true_filtered, vp_pred_coords)
+        initial_score = initial_score * (1 - amount)
 
         return initial_score
 
@@ -35,9 +39,15 @@ def accuracy_score_with_penalty(vp_true_coords, vp_pred_coords):
         vp_pred_filtered = np.expand_dims(vp_pred_filtered, axis=-1)
 
         penalty_coord = vp_pred_coords[index, :]
-        print(f'The penalty coords are: {penalty_coord}')
-        initial_score = accuracy_score(vp_true_coords, vp_pred_filtered)
+        # print(f'The penalty coords are: {penalty_coord}, close pred {vp_pred_filtered}, true coord {vp_true_coords}')
 
+        penalty_distance = np.linalg.norm([penalty_coord[0] - 0.5, penalty_coord[1] - 0.5])
+        # print(f'The penalty: {penalty_distance}')
+        amount = (1 - np.sqrt(2) / penalty_distance)
+        print(f'The penalty: {amount}')
+
+        initial_score = accuracy_score(vp_true_coords, vp_pred_filtered)
+        initial_score = initial_score * (1 - amount)
         return initial_score
 
 
