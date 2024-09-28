@@ -3,7 +3,20 @@ from utils.accuracy_score import accuracy_score
 from utils.extract_vp_coords_from_json import extract_vp_coords_from_json
 
 
-def accuracy_score_with_penalty(vp_true_coords, vp_pred_coords):
+def accuracy_score_with_penalty(vp_true_coords: np.array,
+                                vp_pred_coords: np.array) -> float:
+    """This function calculates the accuracy of the vanishing point detection, for the case
+    where there are other vanishing points that do not have pairs, and therefore we need
+    to add a penalty term to overall accuracy.
+
+    Parameters:
+    vp_true_coords (np.array): The true vanishing point coordinates.
+    vp_pred_coords (np.array): The predicted vanishing point coordinates.
+
+    Returns:
+    The accuracy of detection with the account of the penalty.
+
+        """
     far = 0
     index = 0
     if vp_true_coords.shape[1] == 2:
