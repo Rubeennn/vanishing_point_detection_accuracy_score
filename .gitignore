@@ -56,3 +56,12 @@ coverage.xml
 .DS_Store
 Thumbs.db
 
+# Exclude image files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.svg
+
