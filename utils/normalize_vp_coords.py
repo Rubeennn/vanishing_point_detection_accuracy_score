@@ -14,11 +14,13 @@ def normalize_vp_coords(vp_coordinates: np.array,
     Returns:
     np.array: The normalized vanishing point coordinates with values in the range [0, 1].
     """
+    try:
+        vp_coordinates = vp_coordinates.astype(float)
 
-    vp_coordinates = vp_coordinates.astype(float)
+        vp_coordinates[:, 0] /= img_shape[0]
+        if vp_coordinates.shape[1] == 2:
+            vp_coordinates[:, 1] /= img_shape[1]
+        return vp_coordinates
+    except Exception as e:
+        return e
 
-    vp_coordinates[:, 0] /= img_shape[0]
-    if vp_coordinates.shape[1] == 2:
-        vp_coordinates[:, 1] /= img_shape[1]
-
-    return vp_coordinates
