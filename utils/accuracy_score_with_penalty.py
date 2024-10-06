@@ -3,6 +3,25 @@ from utils.accuracy_score import accuracy_score
 from utils.extract_vp_coords_from_json import extract_vp_coords_from_json
 
 
+def calculate_penalty(coord_2d, coord_1d):
+    far = 0
+    index = 0
+    coord_1d_squeezed = coord_1d.squeeze()
+    for i in range(2):
+        distance = np.linalg.norm(coord_1d_squeezed - coord_2d[i, :])
+        if distance > far:
+            far = distance
+            index = i
+
+    coord_2d_filtered = coord_2d[1 - index, :]
+    coord_2d_filtered = np.expand_dims(coord_2d_filtered, axis=-1)
+
+    penalty_coord = coord_2d[index, :]
+    penalty_distance = np.linalg.norm([penalty_coord[0] - 0.5, penalty_coord[1] - 0.5])
+    amount = (1 - np.sqrt(2) / penalty_distance)
+    return coord_2d_filtered, amount
+
+
 def accuracy_score_with_penalty(vp_true_coords: np.array,
                                 vp_pred_coords: np.array) -> float:
     """This function calculates the accuracy of the vanishing point detection, for the case
@@ -17,51 +36,22 @@ def accuracy_score_with_penalty(vp_true_coords: np.array,
     The accuracy of detection with the account of the penalty.
 
         """
-    far = 0
-    index = 0
+
     if vp_true_coords.shape[1] == 2:
-        vp_pred_squeezed = vp_pred_coords.squeeze()
-        for i in range(2):
-            distance = np.linalg.norm(vp_pred_squeezed - vp_true_coords[i, :])
-            if distance > far:
-                far = distance
-                index = i
+        vp_true_filtered, penalty = calculate_penalty(coord_2d=vp_true_coords, coord_1d=vp_pred_coords)
 
-        vp_true_filtered = vp_true_coords[1 - index, :]
-        vp_true_filtered = np.expand_dims(vp_true_filtered, axis=-1)
-
-        penalty_coord = vp_true_coords[index, :]
-        # print(f'The penalty coords are: {penalty_coord}, close pred {vp_true_filtered}, true coord {vp_pred_coords}')
-        penalty_distance = np.linalg.norm([penalty_coord[0] - 0.5, penalty_coord[1] - 0.5])
-        amount = (1 - np.sqrt(2) / penalty_distance)
-        print(f'The penalty: {amount}')
+        print(f'The penalty: {penalty}')
         initial_score = accuracy_score(vp_true_filtered, vp_pred_coords)
-        initial_score = initial_score * (1 - amount)
+        initial_score = initial_score * (1 - penalty)
 
-        return initial_score
+        return round(initial_score, 2)
 
     elif vp_pred_coords.shape[1] == 2:
-        vp_true_squeezed = vp_true_coords.squeeze()
-        for i in range(2):
-            distance = np.linalg.norm(vp_true_squeezed - vp_pred_coords[i, :])
-            if distance > far:
-                far = distance
-                index = i
-
-        vp_pred_filtered = vp_pred_coords[1 - index, :]
-        vp_pred_filtered = np.expand_dims(vp_pred_filtered, axis=-1)
-
-        penalty_coord = vp_pred_coords[index, :]
-        # print(f'The penalty coords are: {penalty_coord}, close pred {vp_pred_filtered}, true coord {vp_true_coords}')
-
-        penalty_distance = np.linalg.norm([penalty_coord[0] - 0.5, penalty_coord[1] - 0.5])
-        # print(f'The penalty: {penalty_distance}')
-        amount = (1 - np.sqrt(2) / penalty_distance)
-        print(f'The penalty: {amount}')
+        vp_pred_filtered, penalty = calculate_penalty(coord_2d=vp_pred_coords, coord_1d=vp_true_coords)
 
         initial_score = accuracy_score(vp_true_coords, vp_pred_filtered)
-        initial_score = initial_score * (1 - amount)
-        return initial_score
+        initial_score = initial_score * (1 - penalty)
+        return round(initial_score, 2)
 
 
 vp_true = extract_vp_coords_from_json('../vps/vp_true/vanishing_point_13_true.json')
