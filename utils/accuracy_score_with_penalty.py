@@ -4,13 +4,23 @@ from utils.extract_vp_coords_from_json import extract_vp_coords_from_json
 
 
 def calculate_penalty(coord_2d, coord_1d):
-    far = 0
+    """This function calculates the penalty.
+
+    Parameters:
+    coord_2d (np.array): The array with 2 vanishing points.
+    coord_1d (np.array): The array with 1 vanishing point.
+
+    Returns:
+    The penalty and the filtered vanishing point coordinate.
+
+        """
+    farthest_distance = 0
     index = 0
     coord_1d_squeezed = coord_1d.squeeze()
     for i in range(2):
         distance = np.linalg.norm(coord_1d_squeezed - coord_2d[i, :])
-        if distance > far:
-            far = distance
+        if distance > farthest_distance:
+            farthest_distance = distance
             index = i
 
     coord_2d_filtered = coord_2d[1 - index, :]
