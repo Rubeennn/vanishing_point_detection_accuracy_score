@@ -63,5 +63,9 @@ Thumbs.db
 *.gif
 *.bmp
 *.tiff
+<<<<<<< HEAD
 *.svg
 
+=======
+*.svg
+>>>>>>> ruben

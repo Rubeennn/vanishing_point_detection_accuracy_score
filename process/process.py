@@ -1,12 +1,8 @@
-from utils.accuracy_score import accuracy_score
-from utils.accuracy_score_with_penalty import accuracy_score_with_penalty
-from utils.extract_vp_coords_from_json import extract_vp_coords_from_json
-from utils.normalize_vp_coords import normalize_vp_coords
-from utils.read_img import read_img
+from vp_utils.preprocess import extract_vp_coords_from_json, normalize_vp_coords
+from vp_utils.accuracy import accuracy_score, accuracy_score_with_penalty
+from vp_utils.read_img import read_img
 from pathlib import Path
 
-
-# image_path = '../../../../Downloads/20/image_15.jpg'
 
 def process(true_vp_json, pred_vp_json, image_path):
     vp_true = extract_vp_coords_from_json(true_vp_json)
@@ -54,3 +50,15 @@ for key, value in accuracy_results.items():
     print(f"{key}: {value}")
 
 print(sum(accuracy_results.values()) / 16)
+
+
+# vanishing_point_detection/
+# ├── process/
+# │   └── process.py         # Main pipeline or workflow.
+# ├── core/                  # Instead of vp_utils (more descriptive name)
+# │   ├── accuracy.py        # Handles accuracy-related calculations.
+# │   ├── preprocess.py      # Preprocessing functions for vanishing points and images.
+# │   └── io.py              # For reading and writing images (previously read_img).
+# ├── tests/                 # Test cases (if you want to include them).
+# │   └── test_accuracy.py   # Unit tests for accuracy calculations.
+# └── data/                  # Test dataset or input images (optional).
