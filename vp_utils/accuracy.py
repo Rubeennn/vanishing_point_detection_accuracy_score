@@ -34,8 +34,8 @@ def accuracy_score(vanishing_point: np.array,
         else:
             return 'There is no coords provided.'
 
-        distance = np.linalg.norm([x_true - x_pred, y_true - y_pred])
-
+        distance = np.linalg.norm([(x_true - x_pred), (y_true - y_pred)])
+        # weighted_dist = np.linalg.norm([(x_true - x_pred), 2*(y_true - y_pred)])
         # This distance will be used later for give more weight to
         # accuracies of the points which are closer to the center of the image
         distance_from_center = np.linalg.norm([x_true - 0.5, y_true - 0.5])

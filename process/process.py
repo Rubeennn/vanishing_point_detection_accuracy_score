@@ -27,32 +27,33 @@ def process(true_vp_json, pred_vp_json, image_path):
     return overall_accuracy
 
 
-# num = 1
+# num = 777
 # true_json = Path(f'../test_data_1/vps/vp_true/vanishing_point_{num}_true.json')
-# pred_json = Path(f'../test_data_1/vps/vp_pred/vanishing_point_{num}_predicted.json')
+# pred_json = Path(f'../test_data_1/vps/vp_pred_new/vanishing_point_{num}_predicted.json')
 # image = Path(f'../test_data_1/images/image_{num}.jpg')
 # print(process(true_json, pred_json, image))
 
-accuracy_results = {i: 0.0 for i in [1,9,10,11,12,13,14,15,16,17,18,344,539,704,711,722,777,789,1056,1151]}
-for index in accuracy_results.keys():
-    try:
-
-        true_json = Path(f'../test_data_1/vps/vp_true/vanishing_point_{index}_true.json')
-        pred_json = Path(f'../test_data_1/vps/vp_pred/vanishing_point_{index}_predicted.json')
-        image = Path(f'../test_data_1/images/image_{index}.jpg')
-
-        accuracy_results[index] = process(true_json, pred_json, image)
-    except Exception as e:
-        print(f'the error accured for the image number {index}: {e}')
-
-
-for key, value in accuracy_results.items():
-    print(f"{key}: {value}")
+# accuracy_results = {i: 0.0 for i in [9,10,11,12,13,14,15,16,17,18,344,539,704,711,722,777,789,1056,1151]}
+# for index in accuracy_results.keys():
+#     try:
+#
+#         true_json = Path(f'../test_data_1/vps/vp_true/vanishing_point_{index}_true.json')
+#         pred_json = Path(f'../test_data_1/vps/vp_pred_new/vanishing_point_{index}_predicted.json')
+#         image = Path(f'../test_data_1/images/image_{index}.jpg')
+#
+#         accuracy_results[index] = process(true_json, pred_json, image)
+#     except Exception as e:
+#         print(f'the error accured for the image number {index}: {e}')
+#
+#
+# for key, value in accuracy_results.items():
+#     # print(f"{key}: {value}")
+#     print(value)
 #
 # print(sum(accuracy_results.values()) / 16)
 
 
-# num = 51
+# num = 1151
 # true_json = Path(f'../test_data_2/vps/vp_true/vanishing_point_{num}_true.json')
 # pred_json = Path(f'../test_data_2/vps/vp_pred/vanishing_point_{num}_predicted.json')
 # image = Path(f'../test_data_2/images/image_{num}.png')
@@ -63,7 +64,7 @@ for key, value in accuracy_results.items():
 #     try:
 #
 #         true_json = Path(f'../test_data_2/vps/vp_true/vanishing_point_{index}_true.json')
-#         pred_json = Path(f'../test_data_2/vps/vp_pred/vanishing_point_{index}_predicted.json')
+#         pred_json = Path(f'../test_data_2/vps/vp_pred_new/vanishing_point_{index}_predicted.json')
 #         image = Path(f'../test_data_2/images/image_{index}.png')
 #
 #         accuracy_results[index] = process(true_json, pred_json, image)
@@ -71,7 +72,8 @@ for key, value in accuracy_results.items():
 #         print(f'the error accured for the image number {index}: {e}')
 #
 # for key, value in accuracy_results.items():
-#     print(f"{key}: {value}")
+#     # print(f"{key}: {value}")
+#     print(value)
 
 # vanishing_point_detection/
 # ├── process/
